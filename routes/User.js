@@ -4,11 +4,10 @@ const User = require('../models/User');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
-router.get('/', async (req, res) => {
+
+
+router.get('/users', async (req, res) => {
     const users = await User.find({})
-
-    
-
 
     try {
     if (!users) {
@@ -28,7 +27,7 @@ router.get('/', async (req, res) => {
 
 })
 
-router.get('/:id', (req, res) => {
+router.get('/users/:id', (req, res) => {
     const _id = req.params.id
 
     User.findById(_id)
@@ -44,11 +43,39 @@ router.get('/:id', (req, res) => {
         })
 })
 
+router.post('/users/login', (req, res) => {
+    try {
+        const { email, password } = req.body
+        if(!email && password) {
+            return res
+                .status(400)
+                .send({ error: "Please enter both your email and password." })
+        } 
+        const user = await User.findOne({ email })
+        if (!user) {
+            return res.status(400).send({ error: "Email does not exists. "})
+        } else if (user.email === email) {
+            passwordCompare = await bcrypt.compare(password, user.password)
+            if (!passwordCompare) {
+                return res.status(400).send({ error: "Wrong or empty password." })
+            } else if (passwordCompare) {
+                
+                const token = await jwt.sign(
+                    { email: user.email, id: user.id },
+                    process.env.ACCESS_TOKEN_SECRET
+                )
+
+                return res.status(200).json({ token: token })
+            
+            }
+        }
+    } catch (e) {
+        res.status(400).send(e)
+    }
+})
 
 
-
-
-router.post('/add', async (req, res) => {
+router.post('/users', async (req, res) => {
     const { email, password, age, username} = req.body
     const digit = /^(?=.*\d)/
     const upperLetter = /^(?=.*[A-Z])/
@@ -131,9 +158,37 @@ router.patch('/', async (req, res) => {
     }
 })
 
+router.post('/users/forgot-password', (req, res) => {
+    const { email } = req.body
+    
+    const user = await User.findOne({ email })
 
-router.delete('/', async (req,res) => {
+    try {
+        if(!validator.isEmail(email) || !email) {
+            return res.status(400).send({ error: "Please enter a valid email. "})
+        } else if (!user) {
+            return res
+                .status(404)
+                .send({ error: "No account found with that e-mail." })
+        } else if (!user) {
+            
+        }
+    }
+})
 
+
+router.delete('/users/:id', async (req,res) => {
+    try {
+        const user = await User.findByIdAndDelete(req.params.id)
+
+        if (!user) {
+            return res.status(400).send()
+        }
+
+        res.send(user)
+    } catch (e) {
+        res.status(500).send()
+    }
 })
 
 
