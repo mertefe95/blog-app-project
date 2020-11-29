@@ -4,6 +4,7 @@ import Nav from "./components/Nav";
 import ViewPosts from "./components/ViewPosts";
 import Footer from "./components/Footer";
 import CreatePost from "./components/CreatePost"
+import Post from "./components/Post"
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Nav />
         <Switch>
           <Route path="/" exact component={ViewPosts} />
+          <Route path="/posts/:id" exact component={Post} />
           <Route path="/createpost" exact component={CreatePost} />
           </Switch>
         <Footer />
