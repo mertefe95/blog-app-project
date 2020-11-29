@@ -1,7 +1,7 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Nav from "./components/Nav";
-import Homepage from "./components/Homepage";
+import ViewPosts from "./components/ViewPosts";
 import Footer from "./components/Footer";
 import CreatePost from "./components/CreatePost"
 
@@ -11,7 +11,7 @@ function App() {
       <Router>
         <Nav />
         <Switch>
-          <Route path="/" exact component={Homepage} />
+          <Route path="/" exact component={ViewPosts} />
           <Route path="/createpost" exact component={CreatePost} />
           </Switch>
         <Footer />
