@@ -1,24 +1,23 @@
-import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
-import Navbar from "./components/Navbar"
-import Footer from "./components/Footer"
-import Homepage from "./components/Homepage"
-import CreateBlog from "./components/CreateBlog";
-import "./assets/style.css"
+import './App.css';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Nav from "./components/Nav";
+import Homepage from "./components/Homepage";
+import Footer from "./components/Footer";
+import CreatePost from "./components/CreatePost"
 
-export default function App () {
-    return (
-        
-        <Router>
-        <div>
-            <Navbar />
-            <Switch>
-                <Route path="/" component={Homepage} />
-                <Route path="/create" component={CreateBlog} />
-            </Switch>
-            <Footer />
-            </div>
-        </Router>
-
-    )
+function App() {
+  return (
+    <div className="App">
+      <Router>
+        <Nav />
+        <Switch>
+          <Route path="/" exact component={Homepage} />
+          <Route path="/createpost" exact component={CreatePost} />
+          </Switch>
+        <Footer />
+      </Router>
+    </div>
+  );
 }
+
+export default App;

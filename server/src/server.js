@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const userRouter = require('./routes/User');
+const postRouter = require('./routes/Post');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -8,7 +8,7 @@ const app = express();
 
 app.use(cors())
 app.use(express.json())
-app.use('/api', userRouter)
+app.use('/api', postRouter)
 
 const uri = process.env.ATLAS_URI
 
@@ -23,8 +23,6 @@ mongoose.connect(uri, {
     useUnifiedTopology: true,
     useCreateIndex: true
 })
-
-
 
 
 const PORT = process.env.PORT || 8080;
