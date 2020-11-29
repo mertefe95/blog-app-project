@@ -28,6 +28,13 @@ mongoose.connect(uri, {
 const PORT = process.env.PORT || 8080;
 
 
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static('../../client/build'))
+}
+
+
+
 app.listen(PORT, () => {
     console.log(`Server ${PORT} is running`)
 })
+
